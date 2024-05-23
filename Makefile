@@ -17,8 +17,14 @@ endif
 # Targets
 all: deinterlace
 
-deinterlace: deinterlace.cpp
-	$(CC) $(CFLAGS) -o deinterlace deinterlace.cpp $(LDFLAGS)
+deinterlace: main.o deinterlace.o
+	$(CC) $(CFLAGS) -o deinterlace main.o deinterlace.o $(LDFLAGS)
+
+main.o: main.cpp deinterlace.h
+	$(CC) $(CFLAGS) -c main.cpp
+
+deinterlace.o: deinterlace.cpp deinterlace.h
+	$(CC) $(CFLAGS) -c deinterlace.cpp
 
 clean:
-	rm -f deinterlace
+	rm -f deinterlace main.o deinterlace.o

@@ -6,3 +6,9 @@ deinterlace
 *.obj
 *.tmp
 *.log
+
+# Ignore all .jpg files
+*.jpg
+
+# But do not ignore test_image.jpg
+!test_image.jpg

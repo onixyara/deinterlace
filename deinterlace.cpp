@@ -1,32 +1,7 @@
+#include "deinterlace.h"
 #include <iostream>
-#include <fstream>
-#include <jpeglib.h>
 #include <stdexcept>
-#include <vector>
-
-class JpegImage {
-public:
-    JpegImage(const char* input_path, const char* output_path);
-    ~JpegImage();
-
-    void deinterlace();
-
-private:
-    struct jpeg_decompress_struct cinfo;
-    struct jpeg_compress_struct cinfo_out;
-    struct jpeg_error_mgr jerr;
-    FILE* input_file;
-    FILE* output_file;
-    std::vector<JSAMPLE> buffer;
-    std::vector<JSAMPLE> previous_buffer;
-    JDIMENSION width;
-    JDIMENSION height;
-    int num_components;
-
-    void readImage();
-    void writeImage();
-    void applyDeinterlace(JDIMENSION row);
-};
+#include <algorithm>
 
 JpegImage::JpegImage(const char* input_path, const char* output_path) {
     input_file = fopen(input_path, "rb");
@@ -98,21 +73,4 @@ void JpegImage::applyDeinterlace(JDIMENSION row) {
 
 void JpegImage::deinterlace() {
     readImage();
-}
-
-int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <input_path> <output_path>\n";
-        return 1;
-    }
-
-    try {
-        JpegImage image(argv[1], argv[2]);
-        image.deinterlace();
-    } catch (const std::exception& ex) {
-        std::cerr << "Error: " << ex.what() << "\n";
-        return 1;
-    }
-
-    return 0;
 }
