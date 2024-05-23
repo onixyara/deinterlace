@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = g++
-CFLAGS = -Wall -O2
+CFLAGS = -Wall -Wall -Werror -O2 -std=c++11
 
 # Check for the operating system
 UNAME_S := $(shell uname -s)
