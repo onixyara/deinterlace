@@ -1,18 +1,17 @@
 #include "deinterlace.h"
-#include <iostream>
 #include <stdexcept>
 #include <algorithm>
 
-JpegImage::JpegImage(const char* input_path, const char* output_path) {
-    input_file = fopen(input_path, "rb");
+JpegImage::JpegImage(const std::string& input_path, const std::string& output_path) {
+    input_file = fopen(input_path.c_str(), "rb");
     if (!input_file) {
-        throw std::runtime_error("Error opening input file");
+        throw std::runtime_error("Error opening input file: " + input_path);
     }
 
-    output_file = fopen(output_path, "wb");
+    output_file = fopen(output_path.c_str(), "wb");
     if (!output_file) {
         fclose(input_file);
-        throw std::runtime_error("Error opening output file");
+        throw std::runtime_error("Error opening output file: " + output_path);
     }
 
     cinfo.err = jpeg_std_error(&jerr);
@@ -44,11 +43,15 @@ JpegImage::JpegImage(const char* input_path, const char* output_path) {
 JpegImage::~JpegImage() {
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
-    fclose(input_file);
+    if (input_file) {
+        fclose(input_file);
+    }
 
     jpeg_finish_compress(&cinfo_out);
     jpeg_destroy_compress(&cinfo_out);
-    fclose(output_file);
+    if (output_file) {
+        fclose(output_file);
+    }
 }
 
 void JpegImage::readImage() {
