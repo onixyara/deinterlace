@@ -27,8 +27,10 @@ This command-line application deinterlaces a JPEG image using the libjpeg librar
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 2. **Install libjpeg** (if not already installed):
+    ```bash
     brew install jpeg
 3. **I have different include brew path, so please update it in make file if it is not working for you**
+    ```bash
     CFLAGS += -I/opt/homebrew/opt/jpeg/include -arch x86_64
     LDFLAGS = -L/opt/homebrew/opt/jpeg/lib -ljpeg -arch x86_64
 
