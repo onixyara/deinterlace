@@ -1,0 +1,8 @@
+# Ignore the executable file
+deinterlace
+
+# Ignore object files and other temporary files
+*.o
+*.obj
+*.tmp
+*.log
